@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bebida Animo | Trátame con cuidado, tómame con ganas</title>
+    <meta name="description" content="Deliciosas bebidas preparadas. Arma tu bebida a tu gusto y pide por WhatsApp.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="assets/og-image.jpg">
+    <link rel="apple-touch-icon" href="assets/og-image.jpg">
+    
+    <!-- Open Graph / WhatsApp Preview -->
+    <meta property="og:title" content="Bebida Animo | Trátame con cuidado, tómame con ganas">
+    <meta property="og:description" content="Arma tu bebida a tu gusto y pide por WhatsApp. Mojitos, Micheladas, Sodas y más.">
+    <meta property="og:image" itemprop="image" content="https://vcard-bebida-animo.vercel.app/assets/og-image.jpg">
+    <meta property="og:url" content="https://vcard-bebida-animo.vercel.app/">
+    <meta property="og:type" content="website">
+    
+    <!-- Validaciones FB y Twitter -->
+    <meta property="fb:app_id" content="966242223397117">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bebida Animo | Trátame con cuidado">
+    <meta name="twitter:description" content="Arma tu bebida a tu gusto y pide por WhatsApp. Mojitos, Micheladas, Sodas y más.">
+    <meta name="twitter:image" content="https://vcard-bebida-animo.vercel.app/assets/og-image.jpg">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Boxicons for icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-logo-container">
+            <video autoplay loop muted playsinline class="splash-logo-video">
+                <source src="assets/grok-video-e0d58f58-fb86-49ae-a751-e563e32ff740.mp4" type="video/mp4">
+            </video>
+        </div>
+        <h1 class="splash-text">BEBIDA ANIMO</h1>
+        <p style="color: var(--c-lime); margin-top: 10px; font-weight: bold;">Tómame con ganas</p>
+    </div>
+
+    <!-- Animated Bubbles Background -->
+    <div class="bubbles-bg" id="bubbles-container">
+        <!-- Generadas por JS -->
+    </div>
+
+    <div class="app-container">
+        
+        <!-- Hero Banner Portada -->
+        <div class="hero-banner"></div>
+
+        <!-- Header -->
+        <header>
+            <div class="logo-main" style="overflow: hidden; padding: 0;">
+                <img src="assets/logo.jpg" alt="Logo Bebida Animo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+            </div>
+            <h1 style="font-family: var(--font-heading); color: var(--c-cyan);">BEBIDA ANIMO</h1>
+            <p class="tagline">Trátame con cuidado, tómame con ganas</p>
+            
+            <div class="social-links">
+                <a href="https://www.instagram.com/bebidaanimo/" target="_blank" class="social-btn"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </header>
+
+        <!-- Dynamic Cart FAB -->
+        <button class="fab-cart" id="fab-cart" style="display: none;">
+            <i class='bx bxs-shopping-bag'></i>
+            <span>Ver Pedido</span>
+            <div class="badge-count" id="cart-count">0</div>
+        </button>
+
+        <!-- Live Status Branches -->
+        <section class="section">
+            <h2 class="section-title"><i class='bx bxs-map'></i> Nuestras Ubicaciones</h2>
+            
+            <div class="branch-card" id="branch-pinos">
+                <div class="branch-header">
+                    <span class="branch-title">Geo Los Pinos 1</span>
+                    <span class="status-badge" id="status-pinos">Cargando...</span>
+                </div>
+                <div class="branch-info">
+                    <p><i class='bx bx-time'></i> Viernes y Sábado | 7:00 PM - 11:00 PM</p>
+                    <p><i class='bx bx-map'></i> Av. Las Garzas esq. Manati frente al OXXO</p>
+                    <a href="https://maps.google.com/?q=Avenida+Las+Garzas+Manati+Veracruz" target="_blank" class="map-btn"><i class='bx bxs-navigation'></i> Cómo llegar</a>
+                </div>
+            </div>
+
+            <div class="branch-card" id="branch-rio">
+                <div class="branch-header">
+                    <span class="branch-title">Río Medio 1</span>
+                    <span class="status-badge" id="status-rio">Cargando...</span>
+                </div>
+                <div class="branch-info">
+                    <p><i class='bx bx-time'></i> Sábado y Domingo | 1:00 PM - 6:00 PM</p>
+                    <p><i class='bx bx-map'></i> Av. Río Medio esq. Papalopapan frente al pozo</p>
+                    <a href="https://maps.google.com/?q=Avenida+Rio+Medio+Papalopapan+Veracruz" target="_blank" class="map-btn"><i class='bx bxs-navigation'></i> Cómo llegar</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mixology Area -->
+        <section class="section">
+            <h2 class="section-title"><i class='bx bxs-flask'></i> Arma tu Bebida</h2>
+            
+            <div class="mixology-card">
+                <!-- Base Drink -->
+                <div class="step-group">
+                    <div class="step-label">
+                        <span>1. Elige tu Base</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Requerido</span>
+                    </div>
+                    <div class="options-grid" id="grid-base">
+                        <button class="option-btn type-base" data-value="Michelada"><i class='bx bxs-beer'></i> Michelada</button>
+                        <button class="option-btn type-base" data-value="Mojito"><i class='bx bx-water'></i> Mojito</button>
+                        <button class="option-btn type-base" data-value="Soda Italiana"><i class='bx bx-droplet'></i> Soda Italiana</button>
+                        <button class="option-btn type-base" data-value="Ginebra"><i class='bx bx-party'></i> Ginebra</button>
+                    </div>
+                </div>
+
+                <!-- Toppings Dulces -->
+                <div class="step-group">
+                    <div class="step-label">
+                        <span>2. Topping Dulce</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Opcional</span>
+                    </div>
+                    <div class="options-grid" id="grid-dulce">
+                        <button class="option-btn type-dulce" data-value="Caramelo Dulce">🍬 Caramelo</button>
+                        <button class="option-btn type-dulce" data-value="Bombones">🍡 Bombones</button>
+                        <button class="option-btn type-dulce" data-value="Gomitas">🧸 Gomitas</button>
+                        <button class="option-btn type-dulce" data-value="Truena Pop">💥 Truena Pop</button>
+                    </div>
+                </div>
+
+                <!-- Toppings Picosos -->
+                <div class="step-group">
+                    <div class="step-label">
+                        <span>3. Topping Picosito</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Opcional</span>
+                    </div>
+                    <div class="options-grid" id="grid-picoso">
+                        <button class="option-btn type-picoso" data-value="Caramelo Picosito">🌶️ Caramelo</button>
+                        <button class="option-btn type-picoso" data-value="Arandanos Enchilados">🔥 Arándanos</button>
+                        <button class="option-btn type-picoso" data-value="Chile en Polvo">💨 Chile Polvo</button>
+                    </div>
+                </div>
+
+                <!-- Extras -->
+                <div class="step-group">
+                    <div class="step-label">
+                        <span>4. Agrégale Saborrr</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Opcional</span>
+                    </div>
+                    <div class="options-grid" id="grid-sabor">
+                        <button class="option-btn type-sabor" data-value="Arandanos">🫐 Arándanos</button>
+                        <button class="option-btn type-sabor" data-value="Mix de Semillas">🥜 Semillas</button>
+                        <button class="option-btn type-sabor" data-value="Paleta Tamarindo">🍭 Tamarindo</button>
+                        <button class="option-btn type-sabor" data-value="Ajonjoli Caramelizado">🍯 Ajonjolí</button>
+                    </div>
+                </div>
+
+                <button class="add-to-cart-btn" id="btn-add-drink">
+                    <i class='bx bx-plus'></i> Agregar a mi pedido
+                </button>
+            </div>
+        </section>
+
+        <!-- Marketing Engine: VIP Ticket -->
+        <section class="section">
+            <h2 class="section-title" style="color: var(--c-pink);"><i class='bx bxs-coupon'></i> Boleto VIP</h2>
+            <div style="background: rgba(236, 64, 122, 0.1); border: 1px dashed var(--c-pink); padding: 1.5rem; text-align: center; border-radius: var(--radius-md);">
+                <h3 style="color: var(--c-pink); font-family: var(--font-heading); margin-bottom: 5px;">🔥 PREMIO GRATIS</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Toma captura de este boleto brillante, súbelo a tus historias de Instagram etiquetando a <strong style="color:var(--text-main);">@bebidaanimo</strong> y te regalamos un topping extra en tu próxima visita.</p>
+                
+                <div style="background: var(--bg-dark); padding: 15px; border-radius: var(--radius-sm); border: 2px solid var(--c-yellow); box-shadow: 0 0 15px rgba(255, 238, 88, 0.3); font-family: monospace; font-size: 1.2rem; font-weight: bold; color: var(--c-yellow); letter-spacing: 2px;">
+                    #ANIMO<span id="random-code">VIP77</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Hecho con ❤️ por Bebida Animo</p>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Tu Pedido</h2>
+                <button class="close-btn" id="close-cart"><i class='bx bx-x'></i></button>
+            </div>
+            
+            <div class="cart-items" id="cart-items-container">
+                <div class="cart-empty">Aún no has armado ninguna bebida.</div>
+            </div>
+
+            <a href="#" class="whatsapp-btn" id="btn-whatsapp">
+                <i class='bx bxl-whatsapp' style='font-size: 1.5rem;'></i>
+                Hacer pedido vía WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+
+<!-- TREZE SIGNATURE -->
+<a href="https://wa.me/522214092478?text=Hola%20Treze%20Labs%2C%20me%20gustar%C3%ADa%20solicitar%20el%20desarrollo%20de%20un%20sistema%20profesional." target="_blank" style="display: flex; justify-content: center; text-decoration: none; margin-top: 24px; margin-bottom: 24px; opacity: 0.6; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+    <img src="assets/footer.png" alt="Ingeniería Digital por Treze Labs" style="max-height: 38px; object-fit: contain; filter: brightness(0);">
+</a>
+
+</body>
+</html>
