@@ -2,18 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Bebida Animo | Trátame con cuidado, tómame con ganas</title>
-    <meta name="description" content="Deliciosas bebidas preparadas. Arma tu bebida a tu gusto y pide por WhatsApp.">
+    <meta name="description" content="Deliciosas bebidas preparadas en Veracruz. Arma tu bebida a tu gusto y pide por WhatsApp. Mojitos, Micheladas, Sodas y más.">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="assets/og-image.jpg">
     <link rel="apple-touch-icon" href="assets/og-image.jpg">
     
     <!-- Open Graph / WhatsApp Preview -->
-    <meta property="og:title" content="Bebida Animo | Trátame con cuidado, tómame con ganas">
-    <meta property="og:description" content="Arma tu bebida a tu gusto y pide por WhatsApp. Mojitos, Micheladas, Sodas y más.">
+    <meta property="og:title" content="Bebida Animo | Trátame con cuidado">
+    <meta property="og:description" content="Arma tu bebida a tu gusto y pide por WhatsApp. Mojitos, Micheladas y Sodas.">
     <meta property="og:image" itemprop="image" content="https://vcard-bebida-animo.vercel.app/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://vcard-bebida-animo.vercel.app/">
     <meta property="og:type" content="website">
     
@@ -24,9 +30,28 @@
     <meta name="twitter:description" content="Arma tu bebida a tu gusto y pide por WhatsApp. Mojitos, Micheladas, Sodas y más.">
     <meta name="twitter:image" content="https://vcard-bebida-animo.vercel.app/assets/og-image.jpg">
     
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Bebida Animo",
+      "image": "https://vcard-bebida-animo.vercel.app/assets/logo.jpg",
+      "description": "Bebidas preparadas y mixología creativa en Veracruz.",
+      "url": "https://vcard-bebida-animo.vercel.app/",
+      "telephone": "+522299999999",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Veracruz",
+        "addressCountry": "MX"
+      }
+    }
+    </script>
+    
     <link rel="stylesheet" href="css/style.css">
     <!-- Boxicons for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
 </head>
 <body>
 
@@ -67,6 +92,12 @@
             <h1 style="font-family: var(--font-heading); color: var(--c-cyan);">BEBIDA ANIMO</h1>
             <p class="tagline">Trátame con cuidado, tómame con ganas</p>
             
+            <div style="margin: 1rem 0;">
+                <button id="btn-save-vcard" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: var(--radius-pill); font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition);">
+                    <i class='bx bxs-user-plus'></i> Guardar Contacto
+                </button>
+            </div>
+
             <div class="social-links">
                 <a href="https://www.instagram.com/bebidaanimo/" target="_blank" class="social-btn"><i class='bx bxl-instagram'></i></a>
             </div>
@@ -202,47 +233,28 @@
             </div>
             
             <div class="cart-items" id="cart-items-container">
-                <div class="cart-empty">Aún no has armado ninguna bebida.</div>
+                <div class="cart-empty">A\u00fan no has armado ninguna bebida.</div>
             </div>
 
             <a href="#" class="whatsapp-btn" id="btn-whatsapp">
                 <i class='bx bxl-whatsapp' style='font-size: 1.5rem;'></i>
-                Hacer pedido vía WhatsApp
+                Hacer pedido v\u00eda WhatsApp
             </a>
         </div>
     </div>
 
     <script src="js/app.js"></script>
 
-
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-<!-- TREZE SIGNATURE V4 -->
-<div class="treze-footer-watermark" style="text-align: center; font-size: 14px; color: #888; padding: 60px 20px 120px 20px; font-family: sans-serif; opacity: 1; width: 100%; border-top: 1px solid rgba(136, 136, 136, 0.1);">
-    <p style="margin: 0 0 8px 0; font-weight: 400; font-size: 13px;">&copy; 2026 Reservados todos los derechos.</p>
-    <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-        <span style="font-weight: 500; font-size: 13px;">Desarrollado por</span>
-        <a href="https://wa.me/522214092478?text=Hola%20Treze%20Labs%2C%20me%20gustar%C3%ADa%20solicitar%20el%20desarrollo%20de%20un%20sistema%20profesional." target="_blank" style="display: flex; align-items: center; text-decoration: none; -webkit-tap-highlight-color: transparent; outline: none; border: none; transition: transform 0.3s ease, opacity 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.opacity='0.8'" onmouseout="this.style.transform='scale(1)'; this.style.opacity='1'">
-            <img src="treze_footer.png" alt="Treze Labs" style="height: 32px; object-fit: contain; filter: brightness(0);">
-        </a>
+    <!-- TREZE SIGNATURE V4 -->
+    <div class="treze-footer-watermark" style="text-align: center; font-size: 14px; color: #888; padding: 60px 20px 120px 20px; font-family: sans-serif; opacity: 1; width: 100%; border-top: 1px solid rgba(136, 136, 136, 0.1);">
+        <p style="margin: 0 0 8px 0; font-weight: 400; font-size: 13px;">&copy; 2026 Reservados todos los derechos.</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+            <span style="font-weight: 500; font-size: 13px;">Desarrollado por</span>
+            <a href="https://wa.me/522214092478?text=Hola%20Treze%20Labs%2C%20me%20gustar%C3%ADa%20solicitar%20el%20desarrollo%20de%20un%20sistema%20profesional." target="_blank" style="display: flex; align-items: center; text-decoration: none; -webkit-tap-highlight-color: transparent; outline: none; border: none; transition: transform 0.3s ease, opacity 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.opacity='0.8'" onmouseout="this.style.transform='scale(1)'; this.style.opacity='1'">
+                <img src="treze_footer.png" alt="Treze Labs" style="height: 32px; object-fit: contain; filter: brightness(0) invert(1);">
+            </a>
+        </div>
     </div>
-</div>
 
 </body>
 </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  @page { size: letter; margin: 2cm 2.5cm; }
+  body { font-family:'Inter',sans-serif; color:#1e293b; line-height:1.7; padding:40px 50px; max-width:850px; margin:0 auto; }
+  .header { border-bottom:3px solid #0e86b0; padding-bottom:18px; margin-bottom:30px; display:flex; justify-content:space-between; align-items:flex-end; }
+  .header h1 { font-size:1.6rem; font-weight:800; color:#042d3d; }
+  .header .sub { font-size:0.8rem; color:#64748b; }
+  .badge { display:inline-block; background:#0e86b0; color:white; padding:4px 12px; border-radius:20px; font-size:0.7rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+  h2 { font-size:1.15rem; font-weight:700; color:#0e86b0; margin:28px 0 12px; padding-bottom:6px; border-bottom:1px solid #e2e8f0; }
+  h3 { font-size:0.95rem; font-weight:700; color:#334155; margin:18px 0 8px; }
+  p, li { font-size:0.88rem; color:#475569; }
+  ul, ol { padding-left:22px; margin:8px 0; }
+  li { margin:6px 0; }
+  .section-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px 24px; margin:16px 0; page-break-inside:avoid; }
+  .section-card h3 { margin-top:0; color:#0e86b0; }
+  .req-tag { display:inline-block; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:6px; font-size:0.72rem; font-weight:600; margin-left:6px; }
+  .opt-tag { display:inline-block; background:#dbeafe; color:#1e40af; padding:2px 8px; border-radius:6px; font-size:0.72rem; font-weight:600; margin-left:6px; }
+  .step { display:flex; gap:14px; margin:12px 0; align-items:flex-start; }
+  .step-num { background:#0e86b0; color:white; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.8rem; flex-shrink:0; margin-top:2px; }
+  .step-text { flex:1; }
+  .tip { background:#f0fdf4; border-left:4px solid #22c55e; padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:0.84rem; color:#166534; }
+  .warn { background:#fef3c7; border-left:4px solid #f59e0b; padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:0.84rem; color:#92400e; }
+  .note { background:#eff6ff; border-left:4px solid #0e86b0; padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:0.84rem; color:#1e40af; }
+  .security { background:#fef2f2; border-left:4px solid #ef4444; padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:0.84rem; color:#991b1b; }
+  .tree { font-family:'Courier New', monospace; background:#0f172a; color:#94a3b8; padding:20px 24px; border-radius:12px; font-size:0.82rem; line-height:1.9; margin:16px 0; }
+  .tree .folder { color:#22d3ee; font-weight:700; }
+  .tree .file { color:#a5f3fc; }
+  .tree .desc { color:#64748b; font-style:italic; }
+  .tree .critical { color:#f97316; font-weight:700; }
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:0.84rem; }
+  th { background:#0e86b0; color:white; padding:10px 14px; text-align:left; font-weight:600; }
+  td { padding:10px 14px; border-bottom:1px solid #e2e8f0; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  .footer { margin-top:40px; padding-top:16px; border-top:2px solid #e2e8f0; font-size:0.75rem; color:#94a3b8; text-align:center; }
+  @media print { body { padding:0; } .section-card, .tree { break-inside:avoid; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <span class="badge">Documento 3 de 3</span>
+    <h1>🌐 Guía de Infraestructura y Respaldo</h1>
+    <div class="sub">Bebida Animo — Arquitectura Técnica</div>
+  </div>
+  <div style="text-align:right;">
+    <div style="font-size:0.75rem; color:#94a3b8;">Christian Belmont - Desarrollo de Sistemas Digitales</div>
+    <div style="font-size:0.75rem; color:#94a3b8;">Abril 2026</div>
+  </div>
+</div>
+
+<p>Datos técnicos sobre cómo está construida y desplegada la plataforma digital de Bebida Animo.</p>
+
+<div class="section-card">
+  <h3>1. Estructura de Código (Front-End Local)</h3>
+  <div class="tree">
+    <span class="folder">📦 VCard Bebida Animo/</span><br>
+    &nbsp;&nbsp;├─ <span class="folder">assets/</span> <span class="desc">→ Contiene imagenes (logo, hero) y video splash.</span><br>
+    &nbsp;&nbsp;│&nbsp;&nbsp;└─ <span class="file">bebida-animo.vcf</span> <span class="desc">→ Archivo de contacto descargable.</span><br>
+    &nbsp;&nbsp;├─ <span class="folder">css/</span><br>
+    &nbsp;&nbsp;│&nbsp;&nbsp;└─ <span class="file">style.css</span> <span class="desc">→ Glassmorphism y temas oscuros.</span><br>
+    &nbsp;&nbsp;├─ <span class="folder">js/</span><br>
+    &nbsp;&nbsp;│&nbsp;&nbsp;└─ <span class="critical">app.js</span> <span class="desc">→ (CRÍTICO) Lógica de carrito, horarios WA.</span><br>
+    &nbsp;&nbsp;└─ <span class="critical">index.html</span> <span class="desc">→ (CRÍTICO) Estructura de la web, validaciones visuales.</span>
+  </div>
+</div>
+
+<div class="section-card">
+  <h3>2. Modificaciones Futuras (Política de Agencia)</h3>
+  <p>El código inicial ha sido balanceado para carga ultrarrápida y SEO. Cualquier cambio mayor (agregar paneles administrativos o bases de datos) requiere migración completa de arquitectura.</p>
+  <table>
+    <tr>
+      <th>Tipo de Intervención</th>
+      <th>Costo Recomendado</th>
+      <th>Descripción</th>
+    </tr>
+    <tr>
+      <td>Cambio Texto/Básico</td>
+      <td>$200 MXN</td>
+      <td>Ajuste rápido en HTML (horario, número, insumo extra).</td>
+    </tr>
+    <tr>
+      <td>Actualización Media</td>
+      <td>$500 MXN</td>
+      <td>Cambio de imágenes de la interfaz, videos, o colores globales en CSS.</td>
+    </tr>
+  </table>
+  <div class="warn">Advertencia Estricta: Las modificaciones al código JS (`app.js`) hechas por terceros pueden romper completamente la generación del enlace estructurado de WhatsApp. Respalda siempre antes de meter mano.</div>
+</div>
+
+<div class="section-card">
+  <h3>3. Servidor y Respaldo (Vercel)</h3>
+  <ul>
+    <li>**Hosting Edge:** Hospedado en la infraestructura CDN de Vercel. Velocidad ultrarrápida y ancho de banda gratuito.</li>
+    <li>**Dominio:** Actualmente operando bajo `vcard-bebida-animo.vercel.app`. Si el cliente decide rentar `.com`, solo requiere añadir un récord DNS `CNAME` apuntando a `cname.vercel-dns.com`.</li>
+  </ul>
+</div>
+
+<div class="footer">
+  Bebida Animo — Documentación de Entrega &copy; 2026 Christian Belmont - Desarrollo de Sistemas Digitales<br>
+  Este documento es confidencial y exclusivo para el cliente.
+</div>
+
+</body>
+</html>

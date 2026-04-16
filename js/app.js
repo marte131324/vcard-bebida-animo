@@ -31,6 +31,42 @@ document.addEventListener('DOMContentLoaded', () => {
         vipSpan.textContent = rc;
     }
 
+    // --- Save Contact (VCF) Logic ---
+    const btnSaveVCard = document.getElementById('btn-save-vcard');
+    if(btnSaveVCard) {
+        btnSaveVCard.addEventListener('click', () => {
+            const vcardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Bebida Animo
+ORG:Bebida Animo
+TEL;TYPE=CELL,VOICE:+522299999999
+URL:https://vcard-bebida-animo.vercel.app/
+NOTE:Tr\u00e1tame con cuidado, t\u00f3mame con ganas. Bebidas preparadas y mixolog\u00eda.
+END:VCARD`;
+            const blob = new Blob([vcardData], { type: 'text/vcard' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'Bebida_Animo.vcf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            // Haptic Feedback
+            if ("vibrate" in navigator) navigator.vibrate(50);
+            
+            // UI Feedback on button
+            const originalHTML = btnSaveVCard.innerHTML;
+            btnSaveVCard.innerHTML = "<i class='bx bx-check'></i> \u00a1Guardado!";
+            btnSaveVCard.style.color = "var(--c-lime)";
+            setTimeout(() => {
+                btnSaveVCard.innerHTML = originalHTML;
+                btnSaveVCard.style.color = "";
+            }, 2000);
+        });
+    }
+
     // 2. Real-time Branch Status Check
     function checkBranchStatus() {
         const now = new Date();
@@ -134,8 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartItemsContainer = document.getElementById('cart-items-container');
     const btnWhatsapp = document.getElementById('btn-whatsapp');
     
-    // WhatsApp Phone Number
-    const WA_PHONE = '5212299999999'; // Replace with real phone
+    // WhatsApp Phone Number (Placeholders for client adjustment)
+    const WA_PHONE = '522299999999'; // <-- REEMPLAZAR CON N\u00daMERO REAL EN ONBOARDING
 
     function resetBuilder() {
         currentDrink = { base: null, dulce: [], picoso: [], sabor: [] };
@@ -225,17 +261,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let msg = `¡Hola Bebida Animo! 👋 Quiero hacer el siguiente pedido:\n\n`;
+        let msg = `*\u00a1Hola Bebida Animo!* \ud83d\udc4b Quisiera realizar el siguiente pedido armado desde su VCard:\n\n`;
         
         cart.forEach((item, index) => {
-            msg += `🍹 *Bebida ${index + 1}: ${item.base}*\n`;
-            if(item.dulce.length) msg += `   🍬 Dulce: ${item.dulce.join(', ')}\n`;
-            if(item.picoso.length) msg += `   🌶️ Picoso: ${item.picoso.join(', ')}\n`;
-            if(item.sabor.length) msg += `   ✨ Sabor: ${item.sabor.join(', ')}\n`;
+            msg += `\ud83c\udf79 *Bebida ${index + 1}: ${item.base.toUpperCase()}*\n`;
+            if(item.dulce.length) msg += `   \ud83c\udf6c Dulces: ${item.dulce.join(', ')}\n`;
+            if(item.picoso.length) msg += `   \ud83c\udf36\ufe0f Picositos: ${item.picoso.join(', ')}\n`;
+            if(item.sabor.length) msg += `   \u2728 Sabor: ${item.sabor.join(', ')}\n`;
             msg += `\n`;
         });
 
-        msg += `¿Me podrían confirmar si tienen disponibilidad? Gracias.`;
+        msg += `--- \n`;
+        msg += `\u00bfPodr\u00edan confirmarme disponibilidad y tiempo de entrega? \u00a1Gracias! \ud83d\ude0a`;
 
         const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(msg)}`;
         window.open(waUrl, '_blank');
