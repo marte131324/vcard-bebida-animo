@@ -628,6 +628,64 @@ header {
   transform: scale(1.05);
 }
 
+
+/* Endless Ticker */
+.ticker-wrap {
+  width: 100vw;
+  margin-left: -1.5rem; /* Break out of section padding */
+  overflow: hidden;
+  background: var(--c-pink);
+  box-shadow: var(--shadow-neon-pink);
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 8px 0;
+  display: flex;
+}
+.ticker {
+  white-space: nowrap;
+  animation: ticker 20s linear infinite;
+  display: flex;
+  align-items: center;
+}
+.ticker-item {
+  display: inline-block;
+  padding: 0 2rem;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+@keyframes ticker {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Drink Tags / Specialties */
+.drink-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.drink-tag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.drink-tag:nth-child(1) { border-color: var(--c-cyan); color: var(--c-cyan); }
+.drink-tag:nth-child(2) { border-color: var(--c-lime); color: var(--c-lime); }
+.drink-tag:nth-child(3) { border-color: var(--c-pink); color: var(--c-pink); }
+.drink-tag:nth-child(4) { border-color: var(--c-yellow); color: var(--c-yellow); }
+.drink-tag:nth-child(5) { border-color: var(--c-purple); color: var(--c-purple); }
+
 .footer {
   text-align: center;
   padding: 2rem;
