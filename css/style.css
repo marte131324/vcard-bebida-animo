@@ -631,7 +631,7 @@ header {
 
 /* Endless Ticker */
 .ticker-wrap {
-  width: 100vw;
+  width: calc(100% + 3rem);
   margin-left: -1.5rem; /* Break out of section padding */
   overflow: hidden;
   background: var(--c-pink);
