@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bebida Animo | Panel de Administración</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body { background: var(--bg-dark); color: white; font-family: var(--font-body); padding: 2rem; }
+        .admin-container { max-width: 500px; margin: 0 auto; background: rgba(255,255,255,0.05); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.1); }
+        h1 { font-family: var(--font-heading); color: var(--c-cyan); text-align: center; margin-bottom: 0.5rem; }
+        p.subtitle { text-align: center; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: bold; }
+        select, input { width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: var(--radius-sm); font-family: inherit; }
+        select:focus, input:focus { outline: none; border-color: var(--c-cyan); }
+        
+        .btn-save { width: 100%; padding: 15px; background: var(--c-gradient); color: var(--bg-dark); border: none; border-radius: var(--radius-pill); font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 1rem; }
+        .btn-save:hover { opacity: 0.9; transform: scale(1.02); }
+        
+        .alert { background: rgba(236, 64, 122, 0.1); border: 1px dashed var(--c-pink); color: var(--c-pink); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <h1>Control de Estatus</h1>
+        <p class="subtitle">Panel de contingencias (Eventos / Clima)</p>
+
+        <div class="alert">
+            <i class='bx bx-info-circle'></i> 
+            <b>Demo:</b> Esta es una simulación visual del panel de control para modificar el estatus rápidamente cuando haya eventos o mal clima. En producción, esto se sincronizará con todos tus clientes.
+        </div>
+
+        <div class="form-group">
+            <label for="status-override">Estado de Operación Actual</label>
+            <select id="status-override">
+                <option value="normal">Operación Normal (Horarios habituales)</option>
+                <option value="closed_today">CERRADO (Contingencia / Evento Privado)</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="reason-group" style="display: none;">
+            <label for="close-reason">Mensaje a mostrar a los clientes</label>
+            <input type="text" id="close-reason" placeholder="Ej. Hoy no laboraremos por evento privado" value="Hoy no laboramos por evento privado">
+        </div>
+
+        <button class="btn-save" id="btn-save" onclick="saveConfig()">
+            <i class='bx bx-save'></i> Guardar Cambios
+        </button>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="index.html" style="color: var(--c-cyan); text-decoration: none; font-size: 0.9rem;">&larr; Volver a la VCard</a>
+        </div>
+    </div>
+
+    <script>
+        // Load existing
+        const stored = localStorage.getItem('bebidaAnimo_override');
+        if (stored) {
+            try {
+                const data = JSON.parse(stored);
+                document.getElementById('status-override').value = data.status;
+                if(data.message) document.getElementById('close-reason').value = data.message;
+            } catch(e){}
+        }
+
+        const statusSelect = document.getElementById('status-override');
+        const reasonGroup = document.getElementById('reason-group');
+
+        function toggleReason() {
+            if(statusSelect.value === 'closed_today') {
+                reasonGroup.style.display = 'block';
+            } else {
+                reasonGroup.style.display = 'none';
+            }
+        }
+
+        statusSelect.addEventListener('change', toggleReason);
+        toggleReason();
+
+        function saveConfig() {
+            const val = statusSelect.value;
+            const res = document.getElementById('close-reason').value;
+            
+            const config = {
+                status: val,
+                message: val === 'closed_today' ? res : ''
+            };
+
+            localStorage.setItem('bebidaAnimo_override', JSON.stringify(config));
+            
+            const btn = document.getElementById('btn-save');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "<i class='bx bx-check'></i> ¡Guardado!";
+            btn.style.background = "var(--c-lime)";
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = "";
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

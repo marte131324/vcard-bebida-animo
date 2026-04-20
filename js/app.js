@@ -109,6 +109,31 @@ END:VCARD`;
             rioStatus.textContent = 'CERRADO';
             rioStatus.className = 'status-badge closed';
         }
+
+        // Admin Override Logic
+        try {
+            const override = localStorage.getItem('bebidaAnimo_override');
+            if (override) {
+                const data = JSON.parse(override);
+                if (data.status === 'closed_today') {
+                    // Force Pinos to closed
+                    pinosCard.classList.add('is-closed');
+                    pinosCard.classList.remove('is-open');
+                    pinosStatus.textContent = 'CERRADO POR AVISO';
+                    pinosStatus.className = 'status-badge closed';
+                    const pinosInfoP = pinosCard.querySelector('.branch-info p');
+                    if(pinosInfoP) pinosInfoP.innerHTML = `<i class='bx bx-info-circle'></i> ${data.message || 'Hoy no laboraremos. Gracias.'}`;
+
+                    // Force Rio to closed
+                    rioCard.classList.add('is-closed');
+                    rioCard.classList.remove('is-open');
+                    rioStatus.textContent = 'CERRADO POR AVISO';
+                    rioStatus.className = 'status-badge closed';
+                    const rioInfoP = rioCard.querySelector('.branch-info p');
+                    if(rioInfoP) rioInfoP.innerHTML = `<i class='bx bx-info-circle'></i> ${data.message || 'Hoy no laboraremos. Gracias.'}`;
+                }
+            }
+        } catch(e) {}
     }
     
     checkBranchStatus();
@@ -252,7 +277,7 @@ END:VCARD`;
         cartModal.classList.remove('active');
     });
 
-    // Generate WhatsApp Message
+    // Generate WhatsApp Message (SIMULATION)
     btnWhatsapp.addEventListener('click', (e) => {
         e.preventDefault();
         
@@ -261,21 +286,22 @@ END:VCARD`;
             return;
         }
 
-        let msg = `*\u00a1Hola Bebida Animo!* \ud83d\udc4b Quisiera realizar el siguiente pedido armado desde su VCard:\n\n`;
+        let msg = `SIMULACIÓN DE TICKET\n=========================\n\nCuando estemos en horario de servicio, enviarías un mensaje con este pedido:\n\n`;
+        msg += `*¡Hola Bebida Animo!* 👋 Quisiera realizar el siguiente pedido armado desde su VCard:\n\n`;
         
         cart.forEach((item, index) => {
-            msg += `\ud83c\udf79 *Bebida ${index + 1}: ${item.base.toUpperCase()}*\n`;
-            if(item.dulce.length) msg += `   \ud83c\udf6c Dulces: ${item.dulce.join(', ')}\n`;
-            if(item.picoso.length) msg += `   \ud83c\udf36\ufe0f Picositos: ${item.picoso.join(', ')}\n`;
-            if(item.sabor.length) msg += `   \u2728 Sabor: ${item.sabor.join(', ')}\n`;
+            msg += `🍹 *Bebida ${index + 1}: ${item.base.toUpperCase()}*\n`;
+            if(item.dulce.length) msg += `   🍬 Dulces: ${item.dulce.join(', ')}\n`;
+            if(item.picoso.length) msg += `   🌶️ Picositos: ${item.picoso.join(', ')}\n`;
+            if(item.sabor.length) msg += `   ✨ Sabor: ${item.sabor.join(', ')}\n`;
             msg += `\n`;
         });
 
         msg += `--- \n`;
-        msg += `\u00bfPodr\u00edan confirmarme disponibilidad y tiempo de entrega? \u00a1Gracias! \ud83d\ude0a`;
+        msg += `¿Podrían confirmarme disponibilidad y tiempo de entrega? ¡Gracias! 😊\n\n`;
+        msg += `=========================\n(Nota: Esta es solo una simulación de prueba para armar tu bebida. Para comprar, te esperamos en nuestras sucursales o envía el mensaje manualmente.)`;
 
-        const waUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl, '_blank');
+        alert(msg);
     });
 
 });
