@@ -26,28 +26,47 @@
 <body>
 
     <div class="admin-container">
-        <h1>Control de Estatus</h1>
-        <p class="subtitle">Panel de contingencias (Eventos / Clima)</p>
+        <h1>Control de Sucursales</h1>
+        <p class="subtitle">Modifica el estatus de cada ubicación individualmente</p>
 
         <div class="alert">
             <i class='bx bx-info-circle'></i> 
-            <b>Demo:</b> Esta es una simulación visual del panel de control para modificar el estatus rápidamente cuando haya eventos o mal clima. En producción, esto se sincronizará con todos tus clientes.
+            <b>Admin:</b> Selecciona si una sucursal está abierta (horario normal) o cerrada por algún evento o clima.
         </div>
 
-        <div class="form-group">
-            <label for="status-override">Estado de Operación Actual</label>
-            <select id="status-override">
-                <option value="normal">Operación Normal (Horarios habituales)</option>
-                <option value="closed_today">CERRADO (Contingencia / Evento Privado)</option>
-            </select>
+        <!-- Sucursal Pinos -->
+        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.1);">
+            <h3 style="color: var(--c-cyan); margin-bottom: 1rem;"><i class='bx bxs-map'></i> Geo Los Pinos 1</h3>
+            <div class="form-group">
+                <label>Estatus</label>
+                <select id="status-pinos-override">
+                    <option value="normal">Operación Normal</option>
+                    <option value="closed">CERRADO (Evento/Clima)</option>
+                </select>
+            </div>
+            <div class="form-group" id="group-pinos-msg">
+                <label>Mensaje de Cierre</label>
+                <input type="text" id="msg-pinos" placeholder="Ej. Cerrado por evento privado" value="Cerrado por evento privado">
+            </div>
         </div>
 
-        <div class="form-group" id="reason-group" style="display: none;">
-            <label for="close-reason">Mensaje a mostrar a los clientes</label>
-            <input type="text" id="close-reason" placeholder="Ej. Hoy no laboraremos por evento privado" value="Hoy no laboramos por evento privado">
+        <!-- Sucursal Rio Medio -->
+        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; border: 1px solid rgba(0,255,255,0.1);">
+            <h3 style="color: var(--c-cyan); margin-bottom: 1rem;"><i class='bx bxs-map'></i> Río Medio 1</h3>
+            <div class="form-group">
+                <label>Estatus</label>
+                <select id="status-rio-override">
+                    <option value="normal">Operación Normal</option>
+                    <option value="closed">CERRADO (Evento/Clima)</option>
+                </select>
+            </div>
+            <div class="form-group" id="group-rio-msg">
+                <label>Mensaje de Cierre</label>
+                <input type="text" id="msg-rio" placeholder="Ej. Cerrado por clima" value="Cerrado por clima">
+            </div>
         </div>
 
-        <button class="btn-save" id="btn-save" onclick="saveConfig()">
+        <button class="btn-save" id="btn-save" onclick="saveConfigs()">
             <i class='bx bx-save'></i> Guardar Cambios
         </button>
 
@@ -57,44 +76,46 @@
     </div>
 
     <script>
-        // Load existing
-        const stored = localStorage.getItem('bebidaAnimo_override');
-        if (stored) {
-            try {
-                const data = JSON.parse(stored);
-                document.getElementById('status-override').value = data.status;
-                if(data.message) document.getElementById('close-reason').value = data.message;
-            } catch(e){}
-        }
+        // Load existing configurations
+        function loadConfigs() {
+            const pinos = JSON.parse(localStorage.getItem('bebidaAnimo_pinos') || '{"status":"normal","message":""}');
+            const rio = JSON.parse(localStorage.getItem('bebidaAnimo_rio') || '{"status":"normal","message":""}');
 
-        const statusSelect = document.getElementById('status-override');
-        const reasonGroup = document.getElementById('reason-group');
-
-        function toggleReason() {
-            if(statusSelect.value === 'closed_today') {
-                reasonGroup.style.display = 'block';
-            } else {
-                reasonGroup.style.display = 'none';
-            }
-        }
-
-        statusSelect.addEventListener('change', toggleReason);
-        toggleReason();
-
-        function saveConfig() {
-            const val = statusSelect.value;
-            const res = document.getElementById('close-reason').value;
+            document.getElementById('status-pinos-override').value = pinos.status;
+            document.getElementById('msg-pinos').value = pinos.message || "Cerrado por evento privado";
             
-            const config = {
-                status: val,
-                message: val === 'closed_today' ? res : ''
+            document.getElementById('status-rio-override').value = rio.status;
+            document.getElementById('msg-rio').value = rio.message || "Cerrado por clima";
+
+            toggleMsgs();
+        }
+
+        function toggleMsgs() {
+            document.getElementById('group-pinos-msg').style.display = 
+                document.getElementById('status-pinos-override').value === 'closed' ? 'block' : 'none';
+            document.getElementById('group-rio-msg').style.display = 
+                document.getElementById('status-rio-override').value === 'closed' ? 'block' : 'none';
+        }
+
+        document.getElementById('status-pinos-override').addEventListener('change', toggleMsgs);
+        document.getElementById('status-rio-override').addEventListener('change', toggleMsgs);
+
+        function saveConfigs() {
+            const pinos = {
+                status: document.getElementById('status-pinos-override').value,
+                message: document.getElementById('msg-pinos').value
+            };
+            const rio = {
+                status: document.getElementById('status-rio-override').value,
+                message: document.getElementById('msg-rio').value
             };
 
-            localStorage.setItem('bebidaAnimo_override', JSON.stringify(config));
+            localStorage.setItem('bebidaAnimo_pinos', JSON.stringify(pinos));
+            localStorage.setItem('bebidaAnimo_rio', JSON.stringify(rio));
             
             const btn = document.getElementById('btn-save');
             const originalText = btn.innerHTML;
-            btn.innerHTML = "<i class='bx bx-check'></i> ¡Guardado!";
+            btn.innerHTML = "<i class='bx bx-check'></i> ¡Sincronizado!";
             btn.style.background = "var(--c-lime)";
             
             setTimeout(() => {
@@ -102,6 +123,8 @@
                 btn.style.background = "";
             }, 1500);
         }
+
+        loadConfigs();
     </script>
 </body>
 </html>

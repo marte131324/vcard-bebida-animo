@@ -112,34 +112,41 @@ END:VCARD`;
 
         // Admin Override Logic
         try {
-            const override = localStorage.getItem('bebidaAnimo_override');
-            if (override) {
-                const data = JSON.parse(override);
-                if (data.status === 'closed_today') {
-                    // Force Pinos to closed
+            const overridePinos = localStorage.getItem('bebidaAnimo_pinos');
+            const overrideRio = localStorage.getItem('bebidaAnimo_rio');
+
+            if (overridePinos) {
+                const data = JSON.parse(overridePinos);
+                if (data.status === 'closed') {
                     pinosCard.classList.add('is-closed');
                     pinosCard.classList.remove('is-open');
                     pinosStatus.textContent = 'CERRADO POR AVISO';
                     pinosStatus.className = 'status-badge closed';
-                    const pinosInfoP = pinosCard.querySelector('.branch-info p');
-                    if(pinosInfoP) pinosInfoP.innerHTML = `<i class='bx bx-info-circle'></i> ${data.message || 'Hoy no laboraremos. Gracias.'}`;
+                    const info = pinosCard.querySelector('.branch-info p');
+                    if(info) info.innerHTML = `<i class='bx bx-info-circle'></i> ${data.message || 'Hoy no laboraremos.'}`;
+                }
+            }
 
-                    // Force Rio to closed
+            if (overrideRio) {
+                const data = JSON.parse(overrideRio);
+                if (data.status === 'closed') {
                     rioCard.classList.add('is-closed');
                     rioCard.classList.remove('is-open');
                     rioStatus.textContent = 'CERRADO POR AVISO';
                     rioStatus.className = 'status-badge closed';
-                    const rioInfoP = rioCard.querySelector('.branch-info p');
-                    if(rioInfoP) rioInfoP.innerHTML = `<i class='bx bx-info-circle'></i> ${data.message || 'Hoy no laboraremos. Gracias.'}`;
+                    const info = rioCard.querySelector('.branch-info p');
+                    if(info) info.innerHTML = `<i class='bx bx-info-circle'></i> ${data.message || 'Hoy no laboraremos.'}`;
                 }
             }
-        } catch(e) {}
+        } catch(e) {
+            console.error("Error loading overrides", e);
+        }
     }
     
     checkBranchStatus();
-    setInterval(checkBranchStatus, 60000); // Check every minute
+    setInterval(checkBranchStatus, 60000);
 
-    // 3. Drink Builder Logic
+    // 3. Drink Builder Logic (VISUALIZER MODE)
     let currentDrink = {
         base: null,
         dulce: [],
@@ -195,9 +202,6 @@ END:VCARD`;
     const cartItemsContainer = document.getElementById('cart-items-container');
     const btnWhatsapp = document.getElementById('btn-whatsapp');
     
-    // WhatsApp Phone Number (Placeholders for client adjustment)
-    const WA_PHONE = '522299999999'; // <-- REEMPLAZAR CON N\u00daMERO REAL EN ONBOARDING
-
     function resetBuilder() {
         currentDrink = { base: null, dulce: [], picoso: [], sabor: [] };
         document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
@@ -205,7 +209,7 @@ END:VCARD`;
 
     btnAdd.addEventListener('click', () => {
         if(!currentDrink.base) {
-            alert('¡Por favor selecciona al menos una Base para tu bebida!');
+            alert('¡Por favor selecciona al menos una Base para visualizar tu bebida!');
             return;
         }
 
@@ -215,12 +219,10 @@ END:VCARD`;
         updateCartUI();
         resetBuilder();
         
-        // Vibrate if supported
-        if("vibrate" in navigator) navigator.vibrate(50);
+        if ("vibrate" in navigator) navigator.vibrate(50);
         
-        // Show success animation on button
         const originalText = btnAdd.innerHTML;
-        btnAdd.innerHTML = "<i class='bx bx-check'></i> ¡Agregada!";
+        btnAdd.innerHTML = "<i class='bx bx-check'></i> ¡Guardada!";
         btnAdd.style.background = "var(--c-lime)";
         btnAdd.style.color = "var(--bg-dark)";
         setTimeout(() => {
@@ -252,18 +254,17 @@ END:VCARD`;
                 if(item.sabor.length > 0) details.push(`Sabor: ${item.sabor.join(', ')}`);
 
                 el.innerHTML = `
-                    <div style="display:flex; justify-content:space-between;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div class="cart-item-title">${item.base}</div>
-                        <button onclick="removeCartItem(${index})" style="background:none; border:none; color:var(--c-pink); cursor:pointer;"><i class='bx bx-trash'></i></button>
+                        <button onclick="removeCartItem(${index})" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><i class='bx bx-x-circle'></i></button>
                     </div>
-                    <div class="cart-item-details">${details.length > 0 ? details.join('<br>') : 'Sin toppings extra'}</div>
+                    <div class="cart-item-details">${details.length > 0 ? details.join(' • ') : 'Sencilla (sin toppings)'}</div>
                 `;
                 cartItemsContainer.appendChild(el);
             });
         }
     }
 
-    // Assign to window for inline onclick
     window.removeCartItem = function(index) {
         cart.splice(index, 1);
         updateCartUI();
@@ -277,31 +278,57 @@ END:VCARD`;
         cartModal.classList.remove('active');
     });
 
-    // Generate WhatsApp Message (SIMULATION)
+    // Generate Visual Guide Message
     btnWhatsapp.addEventListener('click', (e) => {
         e.preventDefault();
         
         if(cart.length === 0) {
-            alert('Agrega bebidas a tu pedido primero.');
+            alert('Crea algunas combinaciones primero.');
             return;
         }
 
-        let msg = `SIMULACIÓN DE TICKET\n=========================\n\nCuando estemos en horario de servicio, enviarías un mensaje con este pedido:\n\n`;
-        msg += `*¡Hola Bebida Animo!* 👋 Quisiera realizar el siguiente pedido armado desde su VCard:\n\n`;
-        
+        // Create a nicer visual simulation
+        let ticketHtml = `
+            <div style="background: #fff; color: #000; padding: 20px; font-family: 'Courier New', Courier, monospace; line-height: 1.2; text-transform: uppercase; border: 1px solid #ccc; max-width: 300px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                <p style="text-align: center; font-weight: bold; margin-bottom: 5px;">BEBIDA ANIMO</p>
+                <p style="text-align: center; font-size: 10px; margin-bottom: 10px;">GUÍA DE PREPARACIÓN</p>
+                <p style="text-align: center; margin-bottom: 10px;">--------------------------</p>
+        `;
+
         cart.forEach((item, index) => {
-            msg += `🍹 *Bebida ${index + 1}: ${item.base.toUpperCase()}*\n`;
-            if(item.dulce.length) msg += `   🍬 Dulces: ${item.dulce.join(', ')}\n`;
-            if(item.picoso.length) msg += `   🌶️ Picositos: ${item.picoso.join(', ')}\n`;
-            if(item.sabor.length) msg += `   ✨ Sabor: ${item.sabor.join(', ')}\n`;
-            msg += `\n`;
+            ticketHtml += `
+                <p style="font-weight: bold;">[${index + 1}] ${item.base}</p>
+                ${item.dulce.length ? `<p style="font-size: 12px; margin-left: 10px;">+ ${item.dulce.join(', ')}</p>` : ''}
+                ${item.picoso.length ? `<p style="font-size: 12px; margin-left: 10px;">+ ${item.picoso.join(', ')}</p>` : ''}
+                ${item.sabor.length ? `<p style="font-size: 12px; margin-left: 10px;">+ ${item.sabor.join(', ')}</p>` : ''}
+                <p style="margin: 5px 0;">----------</p>
+            `;
         });
 
-        msg += `--- \n`;
-        msg += `¿Podrían confirmarme disponibilidad y tiempo de entrega? ¡Gracias! 😊\n\n`;
-        msg += `=========================\n(Nota: Esta es solo una simulación de prueba para armar tu bebida. Para comprar, te esperamos en nuestras sucursales o envía el mensaje manualmente.)`;
+        ticketHtml += `
+                <p style="text-align: center; font-size: 10px; margin-top: 15px;">Muestra esta guía al personal<br>en nuestra sucursal para<br>que preparen tu bebida así.</p>
+                <p style="text-align: center; margin-top: 10px;">--------------------------</p>
+                <p style="text-align: center; font-size: 9px;">VISUALIZADOR V1.0 - TREZE LABS</p>
+            </div>
+            <button onclick="this.parentElement.remove()" style="margin-top: 20px; width: 100%; border-radius: 20px; padding: 10px; background: var(--c-pink); color: white; border: none; font-weight: bold; cursor: pointer;">Cerrar Guía</button>
+        `;
 
-        alert(msg);
+        const simDiv = document.createElement('div');
+        simDiv.id = 'simulation-layer';
+        simDiv.style.position = 'fixed';
+        simDiv.style.top = '0';
+        simDiv.style.left = '0';
+        simDiv.style.width = '100%';
+        simDiv.style.height = '100%';
+        simDiv.style.background = 'rgba(0,0,0,0.85)';
+        simDiv.style.display = 'flex';
+        simDiv.style.flexDirection = 'column';
+        simDiv.style.alignItems = 'center';
+        simDiv.style.justifyContent = 'center';
+        simDiv.style.zIndex = '1000000';
+        simDiv.style.padding = '20px';
+        simDiv.innerHTML = ticketHtml;
+        document.body.appendChild(simDiv);
     });
 
 });
