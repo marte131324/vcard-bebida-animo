@@ -1,0 +1,7 @@
+Retrieving project…
+Deploying marte131324-2199s-projects/vcard-bebida-animo
+Uploading [--------------------] (0.0B/580.4KB)
+Uploading [=====---------------] (158.4KB/580.4KB)
+Uploading [==========----------] (305.7KB/580.4KB)
+Uploading [===============-----] (449.7KB/580.4KB)
+Uploading [====================] (580.4KB/580.4KB)

@@ -4,3 +4,5 @@
 *.pdf
 node_modules/
 .env
+.vercel
+.env*.local
